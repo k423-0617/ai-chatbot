@@ -37,19 +37,31 @@ cd ai-chatbot
 
 ### 第二步：安装依赖
 
-在命令行中输入：
+在命令行中输入以下任意一个（哪个能用就用哪个）：
 
 ```
 pip install requests
 ```
 
-如果提示 pip 不是命令，试试：
+或者：
+
+```
+py -3 -m pip install requests
+```
+
+或者：
 
 ```
 python -m pip install requests
 ```
 
 ### 第三步：运行程序
+
+```
+py -3 chatbot.py
+```
+
+或者：
 
 ```
 python chatbot.py

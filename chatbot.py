@@ -4,12 +4,36 @@ AI 聊天机器人
 调用 DeepSeek API 实现多轮对话
 """
 
+import os
 import requests
 import json
-import os
 
-# ============ 配置 ============
-API_KEY = os.getenv("DEEPSEEK_API_KEY", "your-api-key-here")  # 请设置环境变量或直接填入你的密钥
+# ============ 配置文件路径 ============
+CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
+
+def load_config():
+    """加载配置，如果没有则提示用户输入"""
+    if os.path.exists(CONFIG_FILE):
+        with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    # 第一次运行，询问密钥
+    print("=" * 50)
+    print("  首次运行，请配置 DeepSeek API 密钥")
+    print("  密钥获取地址：https://platform.deepseek.com/api_keys")
+    print("=" * 50)
+    api_key = input("\n请输入你的 DeepSeek API 密钥: ").strip()
+
+    config = {"api_key": api_key}
+    with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
+        json.dump(config, f, ensure_ascii=False, indent=2)
+
+    print("密钥已保存！下次运行无需重新输入。\n")
+    return config
+
+# ============ 加载配置 ============
+config = load_config()
+API_KEY = config["api_key"]
 BASE_URL = "https://api.deepseek.com/v1/chat/completions"
 MODEL = "deepseek-chat"
 
